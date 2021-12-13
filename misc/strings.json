@@ -1,0 +1,16 @@
+{
+    "appName": "pacr",
+    "addObject": "Objekt hinzufügen",
+    "computer": "Computer",
+    "router": "Router",
+    "switch": "Switch",
+    "editingMode": "Bearbeiten",
+    "simulationMode": "Simulation",
+    "editObject": "Bearbeiten",
+    "editObjectTitle": "Objekt bearbeiten",
+    "interactWithObject": "Verwenden",
+    "close": "Schließen",
+    "ipAddress": "IP-Adresse",
+    "gateway": "Gateway",
+    "delete": "Löschen"
+}
