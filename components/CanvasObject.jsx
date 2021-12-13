@@ -25,6 +25,8 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
     const left = item.x;
     const top = item.y;
 
+    const hasInteractionMenuOption = item.deviceType === "computer";
+
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "canvasObject",
         item: item,
@@ -50,8 +52,10 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
             </div>
 
             <div className="bg-gray-100 overflow-hidden">
-                <Button onClick={() => !isSimulationMode && onConfigModalOpen()} leftIcon={isSimulationMode ? <ExternalLinkIcon /> : <EditIcon />} variant="ghost" isFullWidth={true} justifyContent="flex-start" borderRadius={0}>
-                    <span className="mt-1">{isSimulationMode ? strings.interactWithObject : strings.editObject}</span>
+                <Button onClick={() => !isSimulationMode && onConfigModalOpen()} leftIcon={isSimulationMode ? (hasInteractionMenuOption ? <ExternalLinkIcon /> : null) : <EditIcon />} variant="ghost" isFullWidth={true} justifyContent="flex-start" borderRadius={0} isDisabled={isSimulationMode && !hasInteractionMenuOption}>
+                    <span className="mt-1">
+                        {isSimulationMode ? (hasInteractionMenuOption ? strings.interactWithObject : strings.noInteractivity) : strings.editObject}
+                    </span>
                 </Button>
             </div>
 
@@ -73,7 +77,7 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
                             setCanvasDataItems(newItems);
                         }} marginTop={1} />
 
-                        {deviceType === "computer"
+                        {["computer", "router"].includes(deviceType)
                             ? <div>
                                 <p className="text-sm font-bold text-gray-700 ml-2 mt-6">
                                     {strings.gateway}
