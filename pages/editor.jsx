@@ -12,51 +12,35 @@ import randomstring from "randomstring";
 import Script from "next/script";
 
 const EditorPage = () => {
-    const [canvasDataItems, setCanvasDataItems] = useState([
-        {
-            deviceType: "computer",
-            ipAddress: "0.0.0.0",
-            id: "aaa",
-            x: 100,
-            y: 100
-        },
-        {
-            deviceType: "switch",
-            ipAddress: "0.0.0.0",
-            id: "bbb",
-            x: 300,
-            y: 500
-        },
-        {
-            deviceType: "cable",
-            ipAddress: "0.0.0.0",
-            id: "ccc",
-            cableData: {
-                connections: [
-                    {
-                        id: "aaa",
-                        deviceType: "computer"
-                    },
-                    {
-                        id: "bbb",
-                        deviceType: "switch"
-                    }
-                ]
-            }
-        }
-    ]);
+    const [canvasDataItems, setCanvasDataItems] = useState([]);
     const [isSimulationMode, setSimulationMode] = useState(false);
 
     const addObject = (deviceType) => {
         const newItems = [...canvasDataItems];
 
-        newItems.push({
+        let item = {
             deviceType: deviceType,
-            ipAddress: "0.0.0.0",
             id: randomstring.generate(12),
             x: 100,
             y: 100
-        });
+        };
+
+        if (deviceType === "router") {
+            item.routerData = {
+                sides: {
+                    a: {
+                        ipAddress: "0.0.0.0"
+                    },
+                    b: {
+                        ipAddress: "0.0.0.0"
+                    }
+                }
+            }
+        } else {
+            item.ipAddress = "0.0.0.0";
+        }
+
+        newItems.push(item);
 
         setCanvasDataItems(newItems);
     }

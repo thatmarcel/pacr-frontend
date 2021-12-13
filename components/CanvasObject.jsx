@@ -15,7 +15,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 
 import strings from "../misc/strings.json";
 
-const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataItems }) => {
+const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataItems, onRightClick }) => {
     const { isOpen: isConfigModalOpen, onOpen: onConfigModalOpen, onClose: onConfigModalClose } = useDisclosure();
 
     const id = item.id;
@@ -24,6 +24,10 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
     const gateway = item.gateway;
     const left = item.x;
     const top = item.y;
+
+    const routerData = item.routerData;
+
+    console.log(routerData)
 
     const hasInteractionMenuOption = item.deviceType === "computer";
 
@@ -43,11 +47,14 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
         <div ref={drag} className="w-72 rounded-xl shadow overflow-hidden select-none active:cursor-move absolute" style={{
             left: left,
             top: top
-        }} id={`canvas-object-${deviceType}-${id}`}>
+        }} id={`canvas-object-${deviceType}-${id}`} onContextMenuCapture={(event) => {
+            event.preventDefault();
+            onRightClick();
+        }}>
             <div className="px-4 pt-4 pb-3 border-b-2 border-gray-200 bg-white flex">
                 <img src={`/images/icons/${deviceType}-256.png`} className="w-6 inline mr-4 my-auto" style={{ marginTop: "-2px" }} />
                 <span className="font-bold text-gray-800 my-auto">
-                    {ipAddress}
+                    {deviceType === "router" ? `${routerData.sides.a.ipAddress} (A), ${routerData.sides.b.ipAddress} (B)` : ipAddress}
                 </span>
             </div>
 
@@ -66,16 +73,42 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
                         {strings.editObjectTitle}
                     </ModalHeader>
                     <ModalBody>
-                        <p className="text-sm font-bold text-gray-700 ml-2">
-                            {strings.ipAddress}
-                        </p>
-                        <Input placeholder="0.0.0.0" value={ipAddress} onChange={(event) => {
-                            const newItems = [...canvasDataItems];
-                            const updatedItem = newItems.filter(it => it.id === item.id)[0];
-                            updatedItem.ipAddress = event.target.value;
+                        {deviceType === "router"
+                            ? <>
+                                <p className="text-sm font-bold text-gray-700 ml-2">
+                                    {strings.ipAddress} (A)
+                                </p>
+                                <Input placeholder="0.0.0.0" value={routerData.sides.a.ipAddress} onChange={(event) => {
+                                    const newItems = [...canvasDataItems];
+                                    const updatedItem = newItems.filter(it => it.id === item.id)[0];
+                                    updatedItem.routerData.sides.a.ipAddress = event.target.value;
                     
-                            setCanvasDataItems(newItems);
-                        }} marginTop={1} />
+                                    setCanvasDataItems(newItems);
+                                }} marginTop={1} />
+
+                                <p className="text-sm font-bold text-gray-700 ml-2 mt-6">
+                                    {strings.ipAddress} (B)
+                                </p>
+                                <Input placeholder="0.0.0.0" value={routerData.sides.b.ipAddress} onChange={(event) => {
+                                    const newItems = [...canvasDataItems];
+                                    const updatedItem = newItems.filter(it => it.id === item.id)[0];
+                                    updatedItem.routerData.sides.b.ipAddress = event.target.value;
+                    
+                                    setCanvasDataItems(newItems);
+                                }} marginTop={1} />
+                            </>
+                            : <>
+                            <p className="text-sm font-bold text-gray-700 ml-2">
+                                {strings.ipAddress}
+                            </p>
+                            <Input placeholder="0.0.0.0" value={ipAddress} onChange={(event) => {
+                                const newItems = [...canvasDataItems];
+                                const updatedItem = newItems.filter(it => it.id === item.id)[0];
+                                updatedItem.ipAddress = event.target.value;
+                
+                                setCanvasDataItems(newItems);
+                            }} marginTop={1} />
+                        </>}
 
                         {["computer", "router"].includes(deviceType)
                             ? <div>
