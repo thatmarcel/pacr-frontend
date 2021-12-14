@@ -44,7 +44,7 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
     }
 
     return (
-        <div ref={drag} className={`w-72 rounded-xl shadow overflow-hidden select-none active:cursor-move absolute transition-all duration-300 ${isHighlighted ? "border-yellow-400 border-4" : ""}`} style={{
+        <div ref={!isSimulationMode ? drag : null} className={`w-72 rounded-xl shadow overflow-hidden select-none absolute transition-all duration-300 ${isHighlighted ? "border-yellow-400 border-4" : ""}`} style={{
             left: left,
             top: top
         }} id={`canvas-object-${deviceType}-${id}`} onContextMenuCapture={(event) => {
