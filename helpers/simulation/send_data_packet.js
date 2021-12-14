@@ -1,4 +1,4 @@
-import selectNextDestination from "./select_next_destinations";
+import selectNextDestination from "./select_next_destination";
 
 // TODO: Add switch support
 
