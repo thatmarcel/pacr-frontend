@@ -1,7 +1,5 @@
 import selectNextDestination from "./select_next_destination";
 
-// TODO: Add switch support
-
 const sendDataPacket = async (allItems, sourceItemId, destinationIp, updateStatus) => {
     const sourceItem = allItems.filter(item => item.id === sourceItemId)[0];
 
@@ -41,7 +39,7 @@ const sendDataPacket = async (allItems, sourceItemId, destinationIp, updateStatu
 
             return;
         } else {
-            if (destinationItem.deviceType === "router") {
+            if (result.destinationItem.deviceType === "router") {
                 updateStatus && (await updateStatus({
                     event: "gatewayRouterReached",
                     gatewayItemId: result.destinationItem.id
@@ -55,6 +53,13 @@ const sendDataPacket = async (allItems, sourceItemId, destinationIp, updateStatu
                 }));
 
                 return;
+            } else if (result.destinationItem.deviceType === "switch") {
+                updateStatus && (await updateStatus({
+                    event: "switchReached",
+                    switchItemId: result.destinationItem.id
+                }));
+
+                packetLocationId = result.destinationItem.id;
             } else {
                 updateStatus && (await updateStatus({
                     event: "error",

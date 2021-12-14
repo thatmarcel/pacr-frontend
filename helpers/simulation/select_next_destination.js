@@ -23,13 +23,23 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp) => {
 
         const destinationItem = allItems.filter(it => it.id === cableDestinationItemId)[0];
 
-        return destinationItem &&
+        const isDestination = destinationItem &&
             (
                 destinationItem.type === "router" && (
                     destinationItem.routerData.sides.a.ipAddress === destinationIp ||
                     destinationItem.routerData.sides.b.ipAddress === destinationIp
                 ) || destinationItem.ipAddress === destinationIp
-            )
+            );
+
+        if (isDestination) {
+            return true;
+        } else if (destinationItem.deviceType === "switch") {
+            console.log("checking switch");
+            const r = selectNextDestination(allItems, destinationItem.id, destinationIp).success;
+            console.log("checked switch");
+            console.log(r);
+            return r;
+        }
     }).map(item => {
         const destinationItemId = item.cableData.connections[0].id === sourceItemId ? item.cableData.connections[1].id : item.cableData.connections[0].id
         const destinationItem = allItems.filter(it => it.id === destinationItemId)[0];
@@ -38,9 +48,9 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp) => {
             success: true,
             cableId: item.id,
             destinationItem: destinationItem,
-            hasReachedFinalDestination: true
+            hasReachedFinalDestination: destinationItem.ipAddress === destinationIp
         }
-    });
+    }).sort((a, b) => b.destinationItem.deviceType !== "switch" - a.destinationItem.deviceType !== "switch");
 
     if (eligibleRoutes.length < 1 && sourceItem.gateway !== destinationIp) {
         if (!sourceItem.gateway) {

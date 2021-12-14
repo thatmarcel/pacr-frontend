@@ -30,8 +30,14 @@ const EditorPage = () => {
             ipAddress: "192.168.1.3"
         },
         {
-            deviceType: "cable",
+            deviceType: "switch",
             id: "ccc",
+            x: 300,
+            y: 200
+        },
+        {
+            deviceType: "cable",
+            id: "ddd",
             cableData: {
                 connections: [
                     {
@@ -39,8 +45,24 @@ const EditorPage = () => {
                         deviceType: "computer"
                     },
                     {
+                        id: "ccc",
+                        deviceType: "switch"
+                    }
+                ]
+            }
+        },
+        {
+            deviceType: "cable",
+            id: "eee",
+            cableData: {
+                connections: [
+                    {
                         id: "bbb",
                         deviceType: "computer"
+                    },
+                    {
+                        id: "ccc",
+                        deviceType: "switch"
                     }
                 ]
             }

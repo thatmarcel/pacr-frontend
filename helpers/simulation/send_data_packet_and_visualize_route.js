@@ -46,6 +46,8 @@ const sendDataPacketAndVisualizeRoute = (canvasDataItems, setCanvasDataItems, so
                 highlightItem(status.destinationItemId);
             } else if (status.event === "gatewayReached") {
                 highlightItem(status.gatewayItemId);
+            } else if (status.event === "switchReached") {
+                highlightItem(status.switchItemId);
             }
 
             displayStatus(packetStatusDescriptions[status.event]);
