@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useToast } from "@chakra-ui/react";
 import DefaultContainer from "../components/DefaultContainer";
 import EditorTopBar from "../components/EditorTopBar";
 
@@ -10,9 +11,41 @@ const MainCanvas = dynamic(() => import("../components/MainCanvas"), {
 
 import randomstring from "randomstring";
 import Script from "next/script";
+import sendDataPacketAndVisualizeRoute from "../helpers/simulation/send_data_packet_and_visualize_route";
 
 const EditorPage = () => {
-    const [canvasDataItems, setCanvasDataItems] = useState([]);
+    const [canvasDataItems, setCanvasDataItems] = useState([
+        {
+            deviceType: "computer",
+            id: "aaa",
+            x: 100,
+            y: 100,
+            ipAddress: "192.168.1.2"
+        },
+        {
+            deviceType: "computer",
+            id: "bbb",
+            x: 400,
+            y: 600,
+            ipAddress: "192.168.1.3"
+        },
+        {
+            deviceType: "cable",
+            id: "ccc",
+            cableData: {
+                connections: [
+                    {
+                        id: "aaa",
+                        deviceType: "computer"
+                    },
+                    {
+                        id: "bbb",
+                        deviceType: "computer"
+                    }
+                ]
+            }
+        }
+    ]);
     const [isSimulationMode, setSimulationMode] = useState(false);
 
     const addObject = (deviceType) => {
@@ -46,6 +79,14 @@ const EditorPage = () => {
 
         setCanvasDataItems(newItems);
     }
+
+    const toast = useToast();
+
+    useEffect(() => {
+        setTimeout(() => {
+            sendDataPacketAndVisualizeRoute(canvasDataItems, "aaa", "192.168.1.4", toast);
+        }, 3000);
+    }, []);
 
     return (
         <DefaultContainer hideBarBottomShadow={true} noScroll={true}>

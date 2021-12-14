@@ -1,0 +1,6 @@
+{
+    "error": "Ein Fehler ist aufgetreten",
+    "usingCable": "Das Datenpaket wird über ein Kabel geleitet",
+    "destinationReached": "Das Ziel wurde erreicht",
+    "gatewayRouterReached": "Das Datenpaket ist beim Gateway angekommen"
+}
