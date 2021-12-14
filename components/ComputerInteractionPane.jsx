@@ -21,7 +21,7 @@ const ComputerInteractionPane = ({ canvasDataItems, setCanvasDataItems, computer
                 <TabPanels>
                     <TabPanel>
                         <p className="text-sm font-bold text-gray-700 ml-2 mt-2">
-                            {strings.serverIpAddress}
+                            {strings.receiverIpAddress}
                         </p>
                         <Input placeholder="0.0.0.0" value={simpleClientDestinationIpAddress} onChange={(event) => {
                             setSimpleClientDestinationIpAddress(event.target.value);
