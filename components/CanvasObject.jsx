@@ -54,7 +54,11 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
             <div className="px-4 pt-4 pb-3 border-b-2 border-gray-200 bg-white flex">
                 <img src={`/images/icons/${deviceType}-256.png`} className="w-6 inline mr-4 my-auto" style={{ marginTop: "-2px" }} />
                 <span className="font-bold text-gray-800 my-auto">
-                    {deviceType === "router" ? `${routerData.sides.a.ipAddress} (A), ${routerData.sides.b.ipAddress} (B)` : ipAddress}
+                    {
+                        deviceType === "switch"
+                            ? strings.switch
+                            : deviceType === "router" ? `${routerData.sides.a.ipAddress} (A), ${routerData.sides.b.ipAddress} (B)` : ipAddress
+                    }
                 </span>
             </div>
 
@@ -119,17 +123,19 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
                                     setCanvasDataItems(newItems);
                                 }} marginTop={1} />
                             </>
-                            : <>
-                            <p className="text-sm font-bold text-gray-700 ml-2">
-                                {strings.ipAddress}
-                            </p>
-                            <Input placeholder="0.0.0.0" value={ipAddress} onChange={(event) => {
-                                const newItems = [...canvasDataItems];
-                                const updatedItem = newItems.filter(it => it.id === item.id)[0];
-                                updatedItem.ipAddress = event.target.value;
-                
-                                setCanvasDataItems(newItems);
-                            }} marginTop={1} />
+                            : item.deviceType === "switch"
+                                ? null
+                                : <>
+                                    <p className="text-sm font-bold text-gray-700 ml-2">
+                                        {strings.ipAddress}
+                                    </p>
+                                    <Input placeholder="0.0.0.0" value={ipAddress} onChange={(event) => {
+                                        const newItems = [...canvasDataItems];
+                                        const updatedItem = newItems.filter(it => it.id === item.id)[0];
+                                        updatedItem.ipAddress = event.target.value;
+                    
+                                        setCanvasDataItems(newItems);
+                                    }} marginTop={1} />
                         </>}
 
                         {["computer", "router"].includes(deviceType)

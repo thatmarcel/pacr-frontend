@@ -71,7 +71,7 @@ const EditorPage = () => {
                     }
                 }
             }
-        } else {
+        } else if (deviceType !== "switch") {
             item.ipAddress = "0.0.0.0";
         }
 
