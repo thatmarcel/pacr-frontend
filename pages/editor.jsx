@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { useState } from "react";
 import DefaultContainer from "../components/DefaultContainer";
 import EditorTopBar from "../components/EditorTopBar";
 
@@ -11,64 +10,11 @@ const MainCanvas = dynamic(() => import("../components/MainCanvas"), {
 
 import randomstring from "randomstring";
 import Script from "next/script";
-import sendDataPacketAndVisualizeRoute from "../helpers/simulation/send_data_packet_and_visualize_route";
 
 const EditorPage = () => {
-    const [canvasDataItems, setCanvasDataItems] = useState([
-        {
-            deviceType: "computer",
-            id: "aaa",
-            x: 100,
-            y: 100,
-            ipAddress: "192.168.1.2"
-        },
-        {
-            deviceType: "computer",
-            id: "bbb",
-            x: 400,
-            y: 600,
-            ipAddress: "192.168.1.3"
-        },
-        {
-            deviceType: "switch",
-            id: "ccc",
-            x: 300,
-            y: 200
-        },
-        {
-            deviceType: "cable",
-            id: "ddd",
-            cableData: {
-                connections: [
-                    {
-                        id: "aaa",
-                        deviceType: "computer"
-                    },
-                    {
-                        id: "ccc",
-                        deviceType: "switch"
-                    }
-                ]
-            }
-        },
-        {
-            deviceType: "cable",
-            id: "eee",
-            cableData: {
-                connections: [
-                    {
-                        id: "bbb",
-                        deviceType: "computer"
-                    },
-                    {
-                        id: "ccc",
-                        deviceType: "switch"
-                    }
-                ]
-            }
-        }
-    ]);
+    const [canvasDataItems, setCanvasDataItems] = useState([]);
     const [isSimulationMode, setSimulationMode] = useState(false);
+    const [isSimulationRunning, setSimulationRunning] = useState(false);
 
     const addObject = (deviceType) => {
         const newItems = [...canvasDataItems];
@@ -102,19 +48,23 @@ const EditorPage = () => {
         setCanvasDataItems(newItems);
     }
 
-    const toast = useToast();
-
-    useEffect(() => {
-        setTimeout(() => {
-            sendDataPacketAndVisualizeRoute(canvasDataItems, setCanvasDataItems, "aaa", "192.168.1.3", toast);
-        }, 3000);
-    }, []);
-
     return (
         <DefaultContainer hideBarBottomShadow={true} noScroll={true}>
             <Script src="https://cdn.jsdelivr.net/npm/leader-line/leader-line.min.js" strategy="beforeInteractive" />
-            <EditorTopBar documentName="Beispieldokument 1" addObject={addObject} isSimulationMode={isSimulationMode} onSimulationModeChange={(isSimMode) => setSimulationMode(isSimMode)} />
-            <MainCanvas canvasDataItems={canvasDataItems} setCanvasDataItems={setCanvasDataItems} isSimulationMode={isSimulationMode} />
+            <EditorTopBar
+                documentName="Beispieldokument 1"
+                addObject={addObject}
+                isSimulationMode={isSimulationMode}
+                onSimulationModeChange={(isSimMode) => setSimulationMode(isSimMode)}
+                isSimulationRunning={isSimulationRunning}
+            />
+            <MainCanvas
+                canvasDataItems={canvasDataItems}
+                setCanvasDataItems={setCanvasDataItems}
+                isSimulationMode={isSimulationMode}
+                setSimulationRunning={setSimulationRunning}
+                isSimulationRunning={isSimulationRunning}
+            />
         </DefaultContainer>
     );
 }

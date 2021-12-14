@@ -9,10 +9,18 @@
     "editObject": "Bearbeiten",
     "editObjectTitle": "Objekt bearbeiten",
     "interactWithObject": "Verwenden",
+    "interactWithObjectTitle": "Computer verwenden",
     "close": "Schließen",
     "ipAddress": "IP-Adresse",
     "gateway": "Gateway",
     "delete": "Löschen",
     "noInteractivity": "Passiv",
-    "subnetMask": "Subnetzmaske"
+    "subnetMask": "Subnetzmaske",
+    "receiverIpAddress": "Empfänger IP-Adresse",
+    "message": "Nachricht",
+    "simpleClientMessagePrefill": "Hallo",
+    "send": "Senden",
+    "simpleClient": "Einfacher Client",
+    "echoServer": "Echo-Server",
+    "notYetAvailable": "Noch nicht verfügbar"
 }

@@ -5,7 +5,7 @@ import packetStatusDescriptions from "../../misc/packet_status_descriptions.json
 
 const wait = (seconds) => new Promise((resolve) => setTimeout(resolve, seconds));
 
-const sendDataPacketAndVisualizeRoute = (canvasDataItems, setCanvasDataItems, sourceItemId, destinationIp, toast) => {
+const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataItems, sourceItemId, destinationIp, toast) => {
     const displayError = (message) => {
         toast({
             description: message,
@@ -56,7 +56,7 @@ const sendDataPacketAndVisualizeRoute = (canvasDataItems, setCanvasDataItems, so
         await wait(4100);
     }
 
-    sendDataPacket(canvasDataItems, sourceItemId, destinationIp, updateStatus);
+    await sendDataPacket(canvasDataItems, sourceItemId, destinationIp, updateStatus);
 }
 
 export default sendDataPacketAndVisualizeRoute;

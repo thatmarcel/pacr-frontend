@@ -14,9 +14,11 @@ import {
 import { useDisclosure } from "@chakra-ui/hooks";
 
 import strings from "../misc/strings.json";
+import ComputerInteractionPane from "./ComputerInteractionPane";
 
-const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataItems, onRightClick }) => {
+const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataItems, setSimulationRunning, isSimulationRunning, onRightClick }) => {
     const { isOpen: isConfigModalOpen, onOpen: onConfigModalOpen, onClose: onConfigModalClose } = useDisclosure();
+    const { isOpen: isInteractionModalOpen, onOpen: onInteractionModalOpen, onClose: onInteractionModalClose } = useDisclosure();
 
     const id = item.id;
     const deviceType = item.deviceType;
@@ -63,7 +65,7 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
             </div>
 
             <div className="bg-gray-100 overflow-hidden">
-                <Button onClick={() => !isSimulationMode && onConfigModalOpen()} leftIcon={isSimulationMode ? (hasInteractionMenuOption ? <ExternalLinkIcon /> : null) : <EditIcon />} variant="ghost" isFullWidth={true} justifyContent="flex-start" borderRadius={0} isDisabled={isSimulationMode && !hasInteractionMenuOption}>
+                <Button onClick={() => { isSimulationMode ? (deviceType === "computer" && onInteractionModalOpen()) : onConfigModalOpen()}} leftIcon={isSimulationMode ? (hasInteractionMenuOption ? <ExternalLinkIcon /> : null) : <EditIcon />} variant="ghost" isFullWidth={true} justifyContent="flex-start" borderRadius={0} isDisabled={(isSimulationMode && !hasInteractionMenuOption) || isSimulationRunning}>
                     <span className="mt-1">
                         {isSimulationMode ? (hasInteractionMenuOption ? strings.interactWithObject : strings.noInteractivity) : strings.editObject}
                     </span>
@@ -168,6 +170,31 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
                             {strings.delete}
                         </Button>
                         <Button variant="ghost" onClick={onConfigModalClose}>
+                            {strings.close}
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
+            <Modal isOpen={isInteractionModalOpen} onClose={onInteractionModalClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>
+                        {strings.interactWithObjectTitle}
+                    </ModalHeader>
+                    <ModalBody>
+                        <ComputerInteractionPane
+                            canvasDataItems={canvasDataItems}
+                            setCanvasDataItems={setCanvasDataItems}
+                            computerItemId={id}
+                            onModalClose={onInteractionModalClose}
+                            onModalOpen={onInteractionModalOpen}
+                            setSimulationRunning={setSimulationRunning}
+                        />
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button variant="ghost" onClick={onInteractionModalClose}>
                             {strings.close}
                         </Button>
                     </ModalFooter>

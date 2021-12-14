@@ -1,4 +1,4 @@
-const selectNextDestination = (allItems, sourceItemId, destinationIp) => {
+const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitchItemId) => {
     const sourceItem = allItems.filter(item => item.id === sourceItemId)[0];
 
     if (!sourceItem) {
@@ -23,6 +23,10 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp) => {
 
         const destinationItem = allItems.filter(it => it.id === cableDestinationItemId)[0];
 
+        if (!destinationItem || destinationItem.id === prevSwitchItemId) {
+            return false;
+        }
+
         const isDestination = destinationItem &&
             (
                 destinationItem.type === "router" && (
@@ -35,7 +39,7 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp) => {
             return true;
         } else if (destinationItem.deviceType === "switch") {
             console.log("checking switch");
-            const r = selectNextDestination(allItems, destinationItem.id, destinationIp).success;
+            const r = selectNextDestination(allItems, destinationItem.id, destinationIp, sourceItemId).success;
             console.log("checked switch");
             console.log(r);
             return r;
