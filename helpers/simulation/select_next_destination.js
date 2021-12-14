@@ -27,13 +27,10 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
             return false;
         }
 
-        const isDestination = destinationItem &&
-            (
-                destinationItem.type === "router" && (
-                    destinationItem.routerData.sides.a.ipAddress === destinationIp ||
-                    destinationItem.routerData.sides.b.ipAddress === destinationIp
-                ) || destinationItem.ipAddress === destinationIp
-            );
+        const isMatchingRouter = destinationItem.routerData && (destinationItem.routerData.sides.a.ipAddress === destinationIp ||
+            destinationItem.routerData.sides.b.ipAddress === destinationIp);
+
+        const isDestination = isMatchingRouter || destinationItem.ipAddress === destinationIp;
 
         if (isDestination) {
             return true;
