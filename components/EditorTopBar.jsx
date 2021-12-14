@@ -5,7 +5,7 @@ import { Tabs, TabList, Tab } from "@chakra-ui/react";
 
 import strings from "../misc/strings.json";
 
-const EditorTopBar = ({ documentName, addObject, onSimulationModeChange }) => {
+const EditorTopBar = ({ documentName, addObject, isSimulationMode, onSimulationModeChange }) => {
     return (
         <div className="w-full h-16 flex border-b-2 border-gray">
             <span className="align-middle my-auto ml-8 text-lg font-medium text-gray-500 mr-8">
@@ -13,7 +13,7 @@ const EditorTopBar = ({ documentName, addObject, onSimulationModeChange }) => {
             </span>
             <div className="inline-block my-auto">
                 <Menu>
-                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />} isDisabled={isSimulationMode}>
                         {strings.addObject}
                     </MenuButton>
                     <MenuList>

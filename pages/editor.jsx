@@ -91,7 +91,7 @@ const EditorPage = () => {
     return (
         <DefaultContainer hideBarBottomShadow={true} noScroll={true}>
             <Script src="https://cdn.jsdelivr.net/npm/leader-line/leader-line.min.js" strategy="beforeInteractive" />
-            <EditorTopBar documentName="Beispieldokument 1" addObject={addObject} onSimulationModeChange={(isSimMode) => setSimulationMode(isSimMode)} />
+            <EditorTopBar documentName="Beispieldokument 1" addObject={addObject} isSimulationMode={isSimulationMode} onSimulationModeChange={(isSimMode) => setSimulationMode(isSimMode)} />
             <MainCanvas canvasDataItems={canvasDataItems} setCanvasDataItems={setCanvasDataItems} isSimulationMode={isSimulationMode} />
         </DefaultContainer>
     );
