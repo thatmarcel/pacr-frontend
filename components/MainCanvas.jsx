@@ -46,7 +46,7 @@ const MainCanvas = ({ isSimulationMode, canvasDataItems, setCanvasDataItems }) =
                     {
                         startPlug: "behind",
                         endPlug: "behind",
-                        color: "black"
+                        color: item.isHighlighted ? "#fdcb6e" : "black"
                     }
                 )
             }).filter(item => !!item));

@@ -84,7 +84,7 @@ const EditorPage = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            sendDataPacketAndVisualizeRoute(canvasDataItems, "aaa", "192.168.1.4", toast);
+            sendDataPacketAndVisualizeRoute(canvasDataItems, setCanvasDataItems, "aaa", "192.168.1.3", toast);
         }, 3000);
     }, []);
 

@@ -27,6 +27,8 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
 
     const routerData = item.deviceType === "router" && item.routerData;
 
+    const isHighlighted = item.isHighlighted;
+
     const hasInteractionMenuOption = item.deviceType === "computer";
 
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -42,7 +44,7 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
     }
 
     return (
-        <div ref={drag} className="w-72 rounded-xl shadow overflow-hidden select-none active:cursor-move absolute" style={{
+        <div ref={drag} className={`w-72 rounded-xl shadow overflow-hidden select-none active:cursor-move absolute transition-all duration-300 ${isHighlighted ? "border-yellow-400 border-4" : ""}`} style={{
             left: left,
             top: top
         }} id={`canvas-object-${deviceType}-${id}`} onContextMenuCapture={(event) => {
