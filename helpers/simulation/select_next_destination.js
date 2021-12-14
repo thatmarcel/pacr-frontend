@@ -38,11 +38,7 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
         if (isDestination) {
             return true;
         } else if (destinationItem.deviceType === "switch") {
-            console.log("checking switch");
-            const r = selectNextDestination(allItems, destinationItem.id, destinationIp, sourceItemId).success;
-            console.log("checked switch");
-            console.log(r);
-            return r;
+            return selectNextDestination(allItems, destinationItem.id, destinationIp, sourceItemId).success;
         }
     }).map(item => {
         const destinationItemId = item.cableData.connections[0].id === sourceItemId ? item.cableData.connections[1].id : item.cableData.connections[0].id
