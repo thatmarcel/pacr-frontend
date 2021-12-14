@@ -25,9 +25,7 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
     const left = item.x;
     const top = item.y;
 
-    const routerData = item.routerData;
-
-    console.log(routerData)
+    const routerData = item.deviceType === "router" && item.routerData;
 
     const hasInteractionMenuOption = item.deviceType === "computer";
 
@@ -87,12 +85,34 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
                                 }} marginTop={1} />
 
                                 <p className="text-sm font-bold text-gray-700 ml-2 mt-6">
+                                    {strings.subnetMask} (A)
+                                </p>
+                                <Input placeholder="0.0.0.0" value={routerData.sides.a.subnetMask} onChange={(event) => {
+                                    const newItems = [...canvasDataItems];
+                                    const updatedItem = newItems.filter(it => it.id === item.id)[0];
+                                    updatedItem.routerData.sides.a.subnetMask = event.target.value;
+                    
+                                    setCanvasDataItems(newItems);
+                                }} marginTop={1} />
+
+                                <p className="text-sm font-bold text-gray-700 ml-2 mt-6">
                                     {strings.ipAddress} (B)
                                 </p>
                                 <Input placeholder="0.0.0.0" value={routerData.sides.b.ipAddress} onChange={(event) => {
                                     const newItems = [...canvasDataItems];
                                     const updatedItem = newItems.filter(it => it.id === item.id)[0];
                                     updatedItem.routerData.sides.b.ipAddress = event.target.value;
+                    
+                                    setCanvasDataItems(newItems);
+                                }} marginTop={1} />
+
+                                <p className="text-sm font-bold text-gray-700 ml-2 mt-6">
+                                    {strings.subnetMask} (B)
+                                </p>
+                                <Input placeholder="0.0.0.0" value={routerData.sides.b.subnetMask} onChange={(event) => {
+                                    const newItems = [...canvasDataItems];
+                                    const updatedItem = newItems.filter(it => it.id === item.id)[0];
+                                    updatedItem.routerData.sides.b.subnetMask = event.target.value;
                     
                                     setCanvasDataItems(newItems);
                                 }} marginTop={1} />

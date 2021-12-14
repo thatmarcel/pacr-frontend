@@ -29,10 +29,12 @@ const EditorPage = () => {
             item.routerData = {
                 sides: {
                     a: {
-                        ipAddress: "0.0.0.0"
+                        ipAddress: "0.0.0.0",
+                        subnetMask: "255.255.255.0"
                     },
                     b: {
-                        ipAddress: "0.0.0.0"
+                        ipAddress: "0.0.0.0",
+                        subnetMask: "255.255.255.0"
                     }
                 }
             }

@@ -13,5 +13,6 @@
     "ipAddress": "IP-Adresse",
     "gateway": "Gateway",
     "delete": "Löschen",
-    "noInteractivity": "Passiv"
+    "noInteractivity": "Passiv",
+    "subnetMask": "Subnetzmaske"
 }
