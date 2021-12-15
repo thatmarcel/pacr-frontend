@@ -15,6 +15,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 
 import strings from "../misc/strings.json";
 import ComputerInteractionPane from "./ComputerInteractionPane";
+import RoutingTable from "./RoutingTable";
 
 const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataItems, setSimulationRunning, isSimulationRunning, onRightClick }) => {
     const { isOpen: isConfigModalOpen, onOpen: onConfigModalOpen, onClose: onConfigModalClose } = useDisclosure();
@@ -46,7 +47,7 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
     }
 
     return (
-        <div ref={!isSimulationMode ? drag : null} className={`w-72 rounded-xl shadow overflow-hidden select-none absolute transition-all duration-300 ${isHighlighted ? "border-yellow-400 border-4" : ""}`} style={{
+        <div ref={!isSimulationMode ? drag : null} className={`w-72 rounded-xl shadow overflow-hidden select-none absolute transition-[border] duration-300 ${isHighlighted ? "border-yellow-400 border-4" : ""}`} style={{
             left: left,
             top: top
         }} id={`canvas-object-${deviceType}-${id}`} onContextMenuCapture={(event) => {
@@ -72,9 +73,9 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
                 </Button>
             </div>
 
-            <Modal isOpen={isConfigModalOpen} onClose={onConfigModalOpen}>
+            <Modal isOpen={isConfigModalOpen} onClose={onConfigModalOpen} size="xl">
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent maxWidth={1000}>
                     <ModalHeader>
                         {strings.editObjectTitle}
                     </ModalHeader>
@@ -155,13 +156,26 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
                             </div>
                             : null
                         }
+
+                        {deviceType === "router" ? <RoutingTable
+                            marginTop={6}
+                            item={item}
+                            canvasDataItems={canvasDataItems}
+                            setCanvasDataItems={setCanvasDataItems}
+                        /> : null}
                     </ModalBody>
 
                     <ModalFooter>
                         <Button variant="ghost" onClick={() => {
                             onConfigModalClose();
 
-                            const newItems = [...canvasDataItems].filter(it => it.id !== item.id);
+                            const newItems = [...canvasDataItems].filter(it => it.id !== item.id && !(
+                                it.deviceType === "cable" &&
+                                (
+                                    it.cableData.connections[0].id === item.id ||
+                                    it.cableData.connections[1].id === item.id
+                                )
+                            ));
                             
                             setTimeout(() => {
                                 setCanvasDataItems(newItems);

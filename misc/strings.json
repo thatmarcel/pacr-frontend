@@ -23,5 +23,10 @@
     "send": "Senden",
     "simpleClient": "Einfacher Client",
     "echoServer": "Echo-Server",
-    "notYetAvailable": "Noch nicht verfügbar"
+    "notYetAvailable": "Noch nicht verfügbar",
+    "destination": "Ziel",
+    "interface": "Schnittstelle",
+    "routingTable": "Routingtabelle",
+    "addEntry": "Eintrag hinzufügen",
+    "add": "Hinzufügen"
 }
