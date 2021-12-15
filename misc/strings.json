@@ -36,5 +36,9 @@
     "saving": "Wird gespeichert",
     "saved": "Gespeichert",
     "indexPageTitle": "Tool zur Netzwerksimulation",
-    "goToEditorButtonTitle": "Zum Editor"
+    "goToEditorButtonTitle": "Zum Editor",
+    "aboutThisSite": "Über diese Seite",
+    "acknowledgementsText": "Icons von Chakra UI und Freepik via Flaticon",
+    "goToFrontendSourceCode": "Quellcode ansehen (Frontend)",
+    "goToBackendSourceCode": "Quellcode ansehen (Backend)"
 }
