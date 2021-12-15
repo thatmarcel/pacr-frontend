@@ -58,7 +58,7 @@ const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataIte
         await wait(4100);
     }
 
-    await sendDataPacket(canvasDataItems, runningComputerPrograms, sourceItemId, destinationIp, updateStatus);
+    await sendDataPacket(canvasDataItems, runningComputerPrograms, sourceItemId, destinationIp, updateStatus, sourceItemId);
 }
 
 export default sendDataPacketAndVisualizeRoute;
