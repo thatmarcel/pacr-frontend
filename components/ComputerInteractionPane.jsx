@@ -30,7 +30,7 @@ const ComputerInteractionPane = ({ canvasDataItems, setCanvasDataItems, computer
                         <p className="text-sm font-bold text-gray-700 ml-2 mt-6">
                             {strings.message}
                         </p>
-                        <Input placeholder="Hey!" value={simpleClientMessageToSend} onChange={(event) => {
+                        <Input placeholder={strings.simpleClientMessagePlaceholder} value={simpleClientMessageToSend} onChange={(event) => {
                             setSimpleClientMessageToSend(event.target.value);
                         }} marginTop={1} />
 

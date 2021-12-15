@@ -19,6 +19,7 @@
     "receiverIpAddress": "Empfänger IP-Adresse",
     "message": "Nachricht",
     "simpleClientMessagePrefill": "Hallo",
+    "simpleClientMessagePlaceholder": "Hey!",
     "send": "Senden",
     "simpleClient": "Einfacher Client",
     "echoServer": "Echo-Server",
