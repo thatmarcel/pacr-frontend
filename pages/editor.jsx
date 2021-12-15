@@ -22,9 +22,16 @@ const EditorPage = () => {
     const [isSimulationMode, setSimulationMode] = useState(false);
     const [isSimulationRunning, setSimulationRunning] = useState(false);
     const [saveState, setSaveState] = useState("unsaved");
+    const [hasMadeChangesSinceStart, setMadeChangesSinceStart] = useState(false);
 
     const router = useRouter();
     const docId = router.query.id;
+
+    useState(() => {
+        if (canvasDataItems.length > 1) {
+            setMadeChangesSinceStart(true);
+        }
+    }, [canvasDataItems]);
 
     useEffect(async () => {
         if (canvasDataItems.length < 1 && docId && saveState === "unsaved") {
@@ -34,7 +41,7 @@ const EditorPage = () => {
 
                 content && setCanvasDataItems(JSON.parse(content) || []);
             } catch {}
-        } else {
+        } else if (hasMadeChangesSinceStart) {
             let newDocId = docId || randomstring.generate(6);
 
             await fetch(`${urls.backendBaseURL}/doc/save`, {
