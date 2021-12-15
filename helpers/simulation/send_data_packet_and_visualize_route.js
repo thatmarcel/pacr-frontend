@@ -5,7 +5,7 @@ import packetStatusDescriptions from "../../misc/packet_status_descriptions.json
 
 const wait = (seconds) => new Promise((resolve) => setTimeout(resolve, seconds));
 
-const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataItems, sourceItemId, destinationIp, toast) => {
+const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataItems, runningComputerPrograms, sourceItemId, destinationIp, toast) => {
     const displayError = (message) => {
         toast({
             description: message,
@@ -48,6 +48,8 @@ const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataIte
                 highlightItem(status.gatewayItemId);
             } else if (status.event === "switchReached") {
                 highlightItem(status.switchItemId);
+            } else if (status.event === "echoServerReached") {
+                highlightItem(status.echoServerItemId);
             }
 
             displayStatus(packetStatusDescriptions[status.event]);
@@ -56,7 +58,7 @@ const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataIte
         await wait(4100);
     }
 
-    await sendDataPacket(canvasDataItems, sourceItemId, destinationIp, updateStatus);
+    await sendDataPacket(canvasDataItems, runningComputerPrograms, sourceItemId, destinationIp, updateStatus);
 }
 
 export default sendDataPacketAndVisualizeRoute;

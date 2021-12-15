@@ -1,6 +1,7 @@
+import processIncomingPacket from "./process_incoming_packet";
 import selectNextDestination from "./select_next_destination";
 
-const sendDataPacket = async (allItems, sourceItemId, destinationIp, updateStatus) => {
+const sendDataPacket = async (allItems, runningComputerPrograms, sourceItemId, destinationIp, updateStatus) => {
     const sourceItem = allItems.filter(item => item.id === sourceItemId)[0];
 
     if (!sourceItem) {
@@ -32,10 +33,14 @@ const sendDataPacket = async (allItems, sourceItemId, destinationIp, updateStatu
         }));
 
         if (result.hasReachedFinalDestination) {
-            updateStatus && (await updateStatus({
-                event: "destinationReached",
-                destinationItemId: result.destinationItem.id
-            }));
+            const isDone = await processIncomingPacket(allItems, runningComputerPrograms, sourceItemId, result.destinationItem, updateStatus);
+
+            if (isDone) {
+                updateStatus && (await updateStatus({
+                    event: "destinationReached",
+                    destinationItemId: result.destinationItem.id
+                }));
+            }
 
             return;
         } else {
@@ -45,7 +50,7 @@ const sendDataPacket = async (allItems, sourceItemId, destinationIp, updateStatu
                     gatewayItemId: result.destinationItem.id
                 }));
 
-                await sendDataPacket(allItems, result.destinationItem.id, destinationIp, updateStatus);
+                await sendDataPacket(allItems, runningComputerPrograms, result.destinationItem.id, destinationIp, updateStatus);
 
                 /* updateStatus && (await updateStatus({
                     event: "error",

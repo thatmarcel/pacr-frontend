@@ -28,5 +28,7 @@
     "interface": "Schnittstelle",
     "routingTable": "Routingtabelle",
     "addEntry": "Eintrag hinzufügen",
-    "add": "Hinzufügen"
+    "add": "Hinzufügen",
+    "start": "Starten",
+    "stop": "Stoppen"
 }

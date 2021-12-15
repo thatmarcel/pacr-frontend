@@ -4,7 +4,7 @@ import sendDataPacketAndVisualizeRoute from "../helpers/simulation/send_data_pac
 
 import strings from "../misc/strings.json";
 
-const ComputerInteractionPane = ({ canvasDataItems, setCanvasDataItems, computerItemId, onModalClose, onModalOpen, setSimulationRunning }) => {
+const ComputerInteractionPane = ({ canvasDataItems, setCanvasDataItems, computerItemId, onModalClose, onModalOpen, setSimulationRunning, runningComputerPrograms, setRunningComputerPrograms }) => {
     const [simpleClientDestinationIpAddress, setSimpleClientDestinationIpAddress] = useState(null);
     const [simpleClientMessageToSend, setSimpleClientMessageToSend] = useState(strings.simpleClientMessagePrefill);
 
@@ -37,7 +37,7 @@ const ComputerInteractionPane = ({ canvasDataItems, setCanvasDataItems, computer
                         <Button marginTop={6} paddingX={8} isDisabled={!simpleClientDestinationIpAddress || !simpleClientMessageToSend} onClick={async () => {
                             onModalClose();
                             setSimulationRunning(true);
-                            await sendDataPacketAndVisualizeRoute(canvasDataItems, setCanvasDataItems, computerItemId, simpleClientDestinationIpAddress, toast);
+                            await sendDataPacketAndVisualizeRoute(canvasDataItems, setCanvasDataItems, runningComputerPrograms, computerItemId, simpleClientDestinationIpAddress, toast);
                             setSimulationRunning(false);
                             onModalOpen();
                         }}>
@@ -45,9 +45,27 @@ const ComputerInteractionPane = ({ canvasDataItems, setCanvasDataItems, computer
                         </Button>
                     </TabPanel>
                     <TabPanel>
-                        <p>
-                            {strings.notYetAvailable}
-                        </p>
+                        <Button marginTop={6} paddingX={8} onClick={async () => {
+                            const isRunning = runningComputerPrograms.filter(it => it.computerItemId === computerItemId && it.programType === "echoServer").length > 0;
+
+                            let newRunningComputerPrograms = [...runningComputerPrograms];
+
+                            if (!isRunning) {
+                                newRunningComputerPrograms.push({
+                                    computerItemId: computerItemId,
+                                    programType: "echoServer"
+                                })
+                            } else {
+                                newRunningComputerPrograms = newRunningComputerPrograms.filter(it => it.computerItemId !== computerItemId);
+                            }
+
+                            setRunningComputerPrograms(newRunningComputerPrograms);
+                        }}>
+                            {runningComputerPrograms.filter(it => it.computerItemId === computerItemId && it.programType === "echoServer").length > 0
+                                ? strings.stop
+                                : strings.start
+                            }
+                        </Button>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

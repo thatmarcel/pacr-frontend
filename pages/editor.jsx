@@ -13,6 +13,7 @@ import Script from "next/script";
 
 const EditorPage = () => {
     const [canvasDataItems, setCanvasDataItems] = useState([]);
+    const [runningComputerPrograms, setRunningComputerPrograms] = useState([]);
     const [isSimulationMode, setSimulationMode] = useState(false);
     const [isSimulationRunning, setSimulationRunning] = useState(false);
 
@@ -64,6 +65,8 @@ const EditorPage = () => {
                 isSimulationMode={isSimulationMode}
                 setSimulationRunning={setSimulationRunning}
                 isSimulationRunning={isSimulationRunning}
+                runningComputerPrograms={runningComputerPrograms}
+                setRunningComputerPrograms={setRunningComputerPrograms}
             />
         </DefaultContainer>
     );

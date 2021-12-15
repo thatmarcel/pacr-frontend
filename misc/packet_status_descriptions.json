@@ -3,5 +3,6 @@
     "usingCable": "Das Datenpaket wird über ein Kabel geleitet",
     "destinationReached": "Das Ziel wurde erreicht",
     "gatewayRouterReached": "Das Datenpaket ist beim Gateway-Router angekommen",
-    "switchReached": "Das Datenpaket wird von einem Switch weitergeleitet"
+    "switchReached": "Das Datenpaket wird von einem Switch weitergeleitet",
+    "echoServerReached": "Die Nachricht hat den Echo-Server erreicht und wird nun von diesem zurück gesendet"
 }
