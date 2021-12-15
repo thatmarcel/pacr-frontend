@@ -36,8 +36,6 @@ const MainCanvas = ({ isSimulationMode, canvasDataItems, setCanvasDataItems, set
 
             leaderLines.forEach(line => line.remove());
 
-            console.log(canvasDataItems)
-
             setLeaderLines(canvasDataItems.filter(item => item.deviceType === "cable").map(item => {
                 const elementOne = document.getElementById(`canvas-object-${item.cableData.connections[0].deviceType}-${item.cableData.connections[0].id}`);
                 const elementTwo = document.getElementById(`canvas-object-${item.cableData.connections[1].deviceType}-${item.cableData.connections[1].id}`);

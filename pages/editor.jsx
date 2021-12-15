@@ -35,8 +35,6 @@ const EditorPage = () => {
             __hasMadeChangesSinceStart = true;
         }
 
-        console.log("changes: " + hasMadeChangesSinceStart)
-
         if (canvasDataItems.length < 1 && docId && saveState === "unsaved") {
             try {
                 const fetchResponse = await fetch(`${urls.backendBaseURL}/doc/fetch?id=${docId}`);

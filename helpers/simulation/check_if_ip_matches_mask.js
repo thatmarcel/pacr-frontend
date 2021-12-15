@@ -3,11 +3,6 @@ const checkIfIpMatchesMask = (ipAddress, maskIpAddress, mask) => {
     const maskIpParts = maskIpAddress.split(".").map(part => parseInt(part)).filter(part => part !== NaN);
     const maskParts = mask.split(".").map(part => parseInt(part)).filter(part => part !== NaN);
 
-    /* console.log("=========== checking if ip matches mask ===============");
-    console.log("ip parts: " + ipParts);
-    console.log("mask ip parts: " + maskIpParts);
-    console.log("mask parts: " + maskParts); */
-
     if (ipParts.length !== 4 || maskIpParts.length !== 4 || maskParts.length !== 4) {
         return false;
     }

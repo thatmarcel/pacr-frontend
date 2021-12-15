@@ -52,17 +52,6 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
             const routingTable = sourceItem.routerData.table || [];
             
             const matchingRouterDestinations = routingTable.filter(entry => {
-                console.log(
-                    "=> E2 (" +
-                    JSON.stringify(entry) +
-                    ") matching destination ip: " +
-                    (entry.destination === destinationIp) +
-                    ", matching interface: " +
-                    (entry.interface === routerSourceIp) +
-                    ", matching mask: " +
-                    (checkIfIpMatchesMask(destinationIp, entry.destination, entry.subnetMask))
-                )
-
                 if (entry.gateway !== "127.0.0.1" && entry.gateway !== routerSourceIp) {
                     // TODO: Implement sending to another gateway
                     return false;
