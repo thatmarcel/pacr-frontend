@@ -27,13 +27,11 @@ const EditorPage = () => {
     const router = useRouter();
     const docId = router.query.id;
 
-    useState(() => {
+    useEffect(async () => {
         if (canvasDataItems.length > 1) {
             setMadeChangesSinceStart(true);
         }
-    }, [canvasDataItems]);
 
-    useEffect(async () => {
         if (canvasDataItems.length < 1 && docId && saveState === "unsaved") {
             try {
                 const fetchResponse = await fetch(`${urls.backendBaseURL}/doc/fetch?id=${docId}`);
