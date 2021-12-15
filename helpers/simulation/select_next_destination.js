@@ -11,24 +11,24 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
     const eligibleRoutes = allItems.filter(item => {
         if (item.deviceType !== "cable") { return false; }
 
-        let cableDestinationItemId;
+        let cableDestinationInfo;
 
         if (item.cableData.connections[0].id === sourceItemId) {
-            cableDestinationItemId = item.cableData.connections[1].id;
+            cableDestinationInfo = item.cableData.connections[1];
         } else if (item.cableData.connections[1].id === sourceItemId) {
-            cableDestinationItemId = item.cableData.connections[0].id;
+            cableDestinationInfo = item.cableData.connections[0];
         } else {
             return false;
         }
 
-        const destinationItem = allItems.filter(it => it.id === cableDestinationItemId)[0];
+        const destinationItem = allItems.filter(it => it.id === cableDestinationInfo.id)[0];
 
         if (!destinationItem || destinationItem.id === prevSwitchItemId) {
             return false;
         }
 
-        const isMatchingRouter = destinationItem.routerData && (destinationItem.routerData.sides.a.ipAddress === destinationIp ||
-            destinationItem.routerData.sides.b.ipAddress === destinationIp);
+        const routerDestinationIp = destinationItem.routerData && (cableDestinationInfo.routerSide === "a" ? destinationItem.routerData.sides.a.ipAddress : destinationItem.routerData.sides.b.ipAddress);
+        const isMatchingRouter = routerDestinationIp === destinationIp;
 
         const isDestination = isMatchingRouter || destinationItem.ipAddress === destinationIp;
 
