@@ -27,14 +27,14 @@ const EditorPage = () => {
     const docId = router.query.id;
 
     useEffect(async () => {
-        if (canvasDataItems.length < 1 && docId) {
+        if (canvasDataItems.length < 1 && docId && saveState === "unsaved") {
             try {
                 const fetchResponse = await fetch(`${urls.backendBaseURL}/doc/fetch?id=${docId}`);
                 const content = await fetchResponse.text();
 
                 content && setCanvasDataItems(JSON.parse(content) || []);
             } catch {}
-        } else if (canvasDataItems.length > 0) {
+        } else {
             let newDocId = docId || randomstring.generate(6);
 
             await fetch(`${urls.backendBaseURL}/doc/save`, {
