@@ -1,6 +1,6 @@
 import checkIfIpMatchesMask from "./check_if_ip_matches_mask";
 
-const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitchItemId) => {
+const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitchItemId, prevGateway) => {
     const sourceItem = allItems.filter(item => item.id === sourceItemId)[0];
 
     if (!sourceItem) {
@@ -9,6 +9,8 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
             errorType: "internalError"
         }
     }
+
+    const sourceItemGateway = sourceItem.deviceType === "switch" ? prevGateway : sourceItem.gateway;
 
     const eligibleRoutes = allItems.filter(item => {
         if (item.deviceType !== "cable") { return false; }
@@ -79,7 +81,7 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
         if (isDestination) {
             return true;
         } else if (destinationItem.deviceType === "switch") {
-            return selectNextDestination(allItems, destinationItem.id, destinationIp, sourceItemId).success;
+            return selectNextDestination(allItems, destinationItem.id, destinationIp, sourceItemId, sourceItemGateway).success;
         }
     }).map(item => {
         const destinationItemId = item.cableData.connections[0].id === sourceItemId ? item.cableData.connections[1].id : item.cableData.connections[0].id
@@ -93,7 +95,7 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
         }
     }).sort((a, b) => b.destinationItem.deviceType !== "switch" - a.destinationItem.deviceType !== "switch");
 
-    if (eligibleRoutes.length < 1 && sourceItem.gateway !== destinationIp) {
+    if (eligibleRoutes.length < 1 && sourceItemGateway !== destinationIp) {
         if (sourceItem.deviceType === "router") {
             return {
                 success: false,
@@ -101,24 +103,26 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
             }
         }
 
-        if (!sourceItem.gateway) {
+        if (!sourceItemGateway) {
             return {
                 success: false,
                 errorType: "noRouteToDestinationAndNoGatewaySet"
             }
         }
 
-        let resultToGateway = selectNextDestination(allItems, sourceItemId, sourceItem.gateway);
+        let resultToGateway = selectNextDestination(allItems, sourceItemId, sourceItemGateway, undefined, sourceItemGateway);
         resultToGateway.hasReachedFinalDestination = false;
         return resultToGateway;
     }
 
-    if (eligibleRoutes.length < 1 && sourceItem.gateway === destinationIp) {
+    if (eligibleRoutes.length < 1 && sourceItemGateway === destinationIp) {
         return {
             success: false,
             errorType: "noRouteToGateway"
         }
     }
+
+    eligibleRoutes[0].prevGateway = sourceItemGateway;
 
     return eligibleRoutes[0];
 }

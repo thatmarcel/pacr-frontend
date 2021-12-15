@@ -14,9 +14,10 @@ const sendDataPacket = async (allItems, runningComputerPrograms, sourceItemId, d
     }
     
     let packetLocationId = sourceItemId;
+    let prevGatewayIp;
 
     while (true) {
-        const result = selectNextDestination(allItems, packetLocationId, destinationIp);
+        const result = selectNextDestination(allItems, packetLocationId, destinationIp, undefined, prevGatewayIp);
 
         if (!result.success) {
             updateStatus && (await updateStatus({
@@ -65,6 +66,7 @@ const sendDataPacket = async (allItems, runningComputerPrograms, sourceItemId, d
                 }));
 
                 packetLocationId = result.destinationItem.id;
+                prevGatewayIp = result.prevGateway;
             } else {
                 updateStatus && (await updateStatus({
                     event: "error",
