@@ -22,15 +22,20 @@ const EditorPage = () => {
     const [isSimulationMode, setSimulationMode] = useState(false);
     const [isSimulationRunning, setSimulationRunning] = useState(false);
     const [saveState, setSaveState] = useState("unsaved");
-    const [hasMadeChangesSinceStart, setMadeChangesSinceStart] = useState(false);
+    const [__hasMadeChangesSinceStart, setMadeChangesSinceStart] = useState(false);
 
     const router = useRouter();
     const docId = router.query.id;
 
     useEffect(async () => {
-        if (canvasDataItems.length > 1) {
+        let hasMadeChangesSinceStart = __hasMadeChangesSinceStart;
+
+        if (canvasDataItems.length > 0) {
             setMadeChangesSinceStart(true);
+            __hasMadeChangesSinceStart = true;
         }
+
+        console.log("changes: " + hasMadeChangesSinceStart)
 
         if (canvasDataItems.length < 1 && docId && saveState === "unsaved") {
             try {
@@ -63,7 +68,7 @@ const EditorPage = () => {
 
             router.push(`/editor?id=${newDocId}`);
         }
-    }, [docId, canvasDataItems, hasMadeChangesSinceStart])
+    }, [docId, canvasDataItems, __hasMadeChangesSinceStart])
 
     const addObject = (deviceType) => {
         const newItems = [...canvasDataItems];
