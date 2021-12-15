@@ -24,24 +24,26 @@ const EditorPage = () => {
     const [saveState, setSaveState] = useState("unsaved");
 
     const router = useRouter();
-    const docId = router.query.id || randomstring.generate(6);
+    const docId = router.query.id;
 
     useEffect(async () => {
-        if (canvasDataItems.length < 1) {
+        if (canvasDataItems.length < 1 && docId) {
             try {
                 const fetchResponse = await fetch(`${urls.backendBaseURL}/doc/fetch?id=${docId}`);
                 const content = await fetchResponse.text();
 
                 content && setCanvasDataItems(JSON.parse(content) || []);
             } catch {}
-        } else {
+        } else if (canvasDataItems.length > 0) {
+            let newDocId = docId || randomstring.generate(6);
+
             await fetch(`${urls.backendBaseURL}/doc/save`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    id: docId,
+                    id: newDocId,
                     content: JSON.stringify(
                         canvasDataItems.map(item => {
                             item.isHighlighted = false;
@@ -51,10 +53,11 @@ const EditorPage = () => {
                     )
                 })
             });
-            setSaveState("saved");
-        }
 
-        router.query.id = docId;
+            setSaveState("saved");
+
+            router.push(`/editor?id=${newDocId}`);
+        }
     }, [docId, canvasDataItems])
 
     const addObject = (deviceType) => {

@@ -34,5 +34,7 @@
     "loading": "Wird geladen",
     "unsaved": "Ungespeichert",
     "saving": "Wird gespeichert",
-    "saved": "Gespeichert"
+    "saved": "Gespeichert",
+    "indexPageTitle": "Tool zur Netzwerksimulation",
+    "goToEditorButtonTitle": "Zum Editor"
 }
