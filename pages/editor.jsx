@@ -45,8 +45,8 @@ const EditorPage = () => {
                 body: JSON.stringify({
                     id: newDocId,
                     content: JSON.stringify(
-                        canvasDataItems.map(item => {
-                            item.isHighlighted = false;
+                        JSON.parse(JSON.stringify(canvasDataItems)).map(item => {
+                            item.isHighlighted = undefined;
 
                             return item;
                         })
