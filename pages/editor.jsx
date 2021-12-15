@@ -65,7 +65,7 @@ const EditorPage = () => {
 
             router.push(`/editor?id=${newDocId}`);
         }
-    }, [docId, canvasDataItems])
+    }, [docId, canvasDataItems, hasMadeChangesSinceStart])
 
     const addObject = (deviceType) => {
         const newItems = [...canvasDataItems];
