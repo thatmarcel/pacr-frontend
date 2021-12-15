@@ -1,3 +1,5 @@
+import checkIfIpMatchesMask from "./check_if_ip_matches_mask";
+
 const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitchItemId) => {
     const sourceItem = allItems.filter(item => item.id === sourceItemId)[0];
 
@@ -12,11 +14,14 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
         if (item.deviceType !== "cable") { return false; }
 
         let cableDestinationInfo;
+        let cableSourceInfo;
 
         if (item.cableData.connections[0].id === sourceItemId) {
             cableDestinationInfo = item.cableData.connections[1];
+            cableSourceInfo = item.cableData.connections[0];
         } else if (item.cableData.connections[1].id === sourceItemId) {
             cableDestinationInfo = item.cableData.connections[0];
+            cableSourceInfo = item.cableData.connections[1];
         } else {
             return false;
         }
@@ -31,6 +36,45 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
         const isMatchingRouter = routerDestinationIp === destinationIp;
 
         const isDestination = isMatchingRouter || destinationItem.ipAddress === destinationIp;
+
+        if (sourceItem.deviceType === "router") {
+            const routerSourceIp = sourceItem.routerData && (cableSourceInfo.routerSide === "a" ? sourceItem.routerData.sides.a.ipAddress : sourceItem.routerData.sides.b.ipAddress);
+            const routerSourceMask = sourceItem.routerData && (cableSourceInfo.routerSide === "a" ? sourceItem.routerData.sides.a.subnetMask : sourceItem.routerData.sides.b.subnetMask);
+            
+            const isCorrectSubnet = checkIfIpMatchesMask(destinationIp, routerSourceIp, routerSourceMask);
+
+            if (!isCorrectSubnet) {
+                return;
+            }
+
+            const routingTable = sourceItem.routerData.table || [];
+            
+            const matchingRouterDestinations = routingTable.filter(entry => {
+                console.log(
+                    "=> E2 (" +
+                    JSON.stringify(entry) +
+                    ") matching destination ip: " +
+                    (entry.destination === destinationIp) +
+                    ", matching interface: " +
+                    (entry.interface === routerSourceIp) +
+                    ", matching mask: " +
+                    (checkIfIpMatchesMask(destinationIp, entry.destination, entry.subnetMask))
+                )
+
+                if (entry.gateway !== "127.0.0.1" && entry.gateway !== routerSourceIp) {
+                    // TODO: Implement sending to another gateway
+                    return false;
+                }
+
+                return (
+                    entry.destination === destinationIp &&
+                    entry.interface === routerSourceIp &&
+                    checkIfIpMatchesMask(destinationIp, entry.destination, entry.subnetMask)
+                )
+            });
+
+            return matchingRouterDestinations.length > 0;
+        }
 
         if (isDestination) {
             return true;
@@ -50,6 +94,13 @@ const selectNextDestination = (allItems, sourceItemId, destinationIp, prevSwitch
     }).sort((a, b) => b.destinationItem.deviceType !== "switch" - a.destinationItem.deviceType !== "switch");
 
     if (eligibleRoutes.length < 1 && sourceItem.gateway !== destinationIp) {
+        if (sourceItem.deviceType === "router") {
+            return {
+                success: false,
+                errorType: "noRouteFromGatewayRouter"
+            }
+        }
+
         if (!sourceItem.gateway) {
             return {
                 success: false,

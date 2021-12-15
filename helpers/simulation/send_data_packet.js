@@ -45,12 +45,12 @@ const sendDataPacket = async (allItems, sourceItemId, destinationIp, updateStatu
                     gatewayItemId: result.destinationItem.id
                 }));
 
-                // TODO: Add routing
+                await sendDataPacket(allItems, result.destinationItem.id, destinationIp, updateStatus);
 
-                updateStatus && (await updateStatus({
+                /* updateStatus && (await updateStatus({
                     event: "error",
                     errorType: "routersNotImplemented"
-                }));
+                })); */
 
                 return;
             } else if (result.destinationItem.deviceType === "switch") {

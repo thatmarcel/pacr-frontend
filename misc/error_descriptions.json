@@ -3,5 +3,6 @@
     "noRouteToDestinationAndNoGatewaySet": "Das Ziel ist nicht direkt mit dem Sender verbunden und es ist kein Gateway angegeben",
     "noRouteToGateway": "Das Ziel ist nicht direkt mit dem Sender verbunden und es existiert auch keine direkte Verbindung zum Gateway",
     "routersNotImplemented": "Router sind momentan noch nicht unterstützt",
-    "gatewayReachedButNotTypeRouter": "Das Gateway kann zwar erreicht werden, ist aber kein Router"
+    "gatewayReachedButNotTypeRouter": "Das Gateway kann zwar erreicht werden, ist aber kein Router",
+    "noRouteFromGatewayRouter": "In der Routingtabelle des Gateway-Routers ist kein passender Eintrag vorhanden"
 }
