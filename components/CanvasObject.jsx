@@ -54,7 +54,7 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
             event.preventDefault();
             onRightClick();
         }}>
-            <div className="px-4 pt-4 pb-3 border-b-2 border-gray-200 bg-white flex">
+            <div className={`px-4 pt-4 pb-3 border-b-2 border-gray-200 bg-white flex ${isSimulationMode ? "" : "hover:cursor-move"}`}>
                 <img src={`/images/icons/${deviceType}-256.png`} className="w-6 inline mr-4 my-auto" style={{ marginTop: "-2px" }} />
                 <span className="font-bold text-gray-800 my-auto">
                     {
