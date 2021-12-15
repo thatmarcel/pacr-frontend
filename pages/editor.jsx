@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DefaultContainer from "../components/DefaultContainer";
 import EditorTopBar from "../components/EditorTopBar";
 
@@ -11,11 +11,51 @@ const MainCanvas = dynamic(() => import("../components/MainCanvas"), {
 import randomstring from "randomstring";
 import Script from "next/script";
 
+import fetch from "isomorphic-unfetch";
+import { useRouter } from "next/router";
+
+import urls from "../misc/urls.json";
+
 const EditorPage = () => {
     const [canvasDataItems, setCanvasDataItems] = useState([]);
     const [runningComputerPrograms, setRunningComputerPrograms] = useState([]);
     const [isSimulationMode, setSimulationMode] = useState(false);
     const [isSimulationRunning, setSimulationRunning] = useState(false);
+    const [saveState, setSaveState] = useState("unsaved");
+
+    const router = useRouter();
+    const docId = router.query.id || randomstring.generate(6);
+
+    useEffect(async () => {
+        if (canvasDataItems.length < 1) {
+            try {
+                const fetchResponse = await fetch(`${urls.backendBaseURL}/doc/fetch?id=${docId}`);
+                const content = await fetchResponse.text();
+
+                content && setCanvasDataItems(JSON.parse(content) || []);
+            } catch {}
+        } else {
+            await fetch(`${urls.backendBaseURL}/doc/save`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: docId,
+                    content: JSON.stringify(
+                        canvasDataItems.map(item => {
+                            item.isHighlighted = false;
+
+                            return item;
+                        })
+                    )
+                })
+            });
+            setSaveState("saved");
+        }
+
+        router.query.id = docId;
+    }, [docId, canvasDataItems])
 
     const addObject = (deviceType) => {
         const newItems = [...canvasDataItems];
@@ -53,11 +93,11 @@ const EditorPage = () => {
         <DefaultContainer hideBarBottomShadow={true} noScroll={true}>
             <Script src="https://cdn.jsdelivr.net/npm/leader-line/leader-line.min.js" strategy="beforeInteractive" />
             <EditorTopBar
-                documentName="Beispieldokument 1"
                 addObject={addObject}
                 isSimulationMode={isSimulationMode}
                 onSimulationModeChange={(isSimMode) => setSimulationMode(isSimMode)}
                 isSimulationRunning={isSimulationRunning}
+                saveState={saveState}
             />
             <MainCanvas
                 canvasDataItems={canvasDataItems}

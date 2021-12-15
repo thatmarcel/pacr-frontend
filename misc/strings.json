@@ -30,5 +30,9 @@
     "addEntry": "Eintrag hinzufügen",
     "add": "Hinzufügen",
     "start": "Starten",
-    "stop": "Stoppen"
+    "stop": "Stoppen",
+    "loading": "Wird geladen",
+    "unsaved": "Ungespeichert",
+    "saving": "Wird gespeichert",
+    "saved": "Gespeichert"
 }

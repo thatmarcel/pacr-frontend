@@ -5,11 +5,13 @@ import { Tabs, TabList, Tab } from "@chakra-ui/react";
 
 import strings from "../misc/strings.json";
 
-const EditorTopBar = ({ documentName, addObject, isSimulationMode, onSimulationModeChange, isSimulationRunning }) => {
+const EditorTopBar = ({ addObject, isSimulationMode, onSimulationModeChange, isSimulationRunning, saveState }) => {
     return (
         <div className="w-full h-16 flex border-b-2 border-gray">
             <span className="align-middle my-auto ml-8 text-lg font-medium text-gray-500 mr-8">
-                {documentName}
+                {saveState === "unsaved" ? strings.unsaved : null}
+                {saveState === "saving" ? `${strings.saving}...` : null}
+                {saveState === "saved" ? strings.saved : null}
             </span>
             <div className="inline-block my-auto">
                 <Menu>
