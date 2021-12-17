@@ -49,6 +49,10 @@ const HeaderBar = ({ hideBarBottomShadow }) => {
                         <p>
                             {strings.acknowledgementsText}
                         </p>
+
+                        <p className="mt-4">
+                            {strings.pronounciationNote}
+                        </p>
                     </ModalBody>
 
                     <ModalFooter>
