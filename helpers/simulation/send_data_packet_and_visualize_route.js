@@ -5,12 +5,12 @@ import packetStatusDescriptions from "../../misc/packet_status_descriptions.json
 
 const wait = (seconds) => new Promise((resolve) => setTimeout(resolve, seconds));
 
-const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataItems, runningComputerPrograms, sourceItemId, destinationIp, toast) => {
+const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataItems, runningComputerPrograms, sourceItemId, destinationIp, toast, isSimulationSlowMode) => {
     const displayError = (message) => {
         toast({
             description: message,
             status: "error",
-            duration: 4000,
+            duration: isSimulationSlowMode ? 4000 : 1000,
             isClosable: false,
         });
     }
@@ -19,7 +19,7 @@ const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataIte
         toast({
             description: message,
             status: "info",
-            duration: 4000,
+            duration: isSimulationSlowMode ? 4000 : 1000,
             isClosable: false,
         });
     }
@@ -33,7 +33,7 @@ const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataIte
             const newerItems = [...newItems];
             newerItems.filter(item => item.id === itemId)[0].isHighlighted = false;
             setCanvasDataItems(newerItems);
-        }, 4000);
+        }, isSimulationSlowMode ? 4000 : 1000);
     }
 
     const updateStatus = async (status) => {
@@ -55,7 +55,7 @@ const sendDataPacketAndVisualizeRoute = async (canvasDataItems, setCanvasDataIte
             displayStatus(packetStatusDescriptions[status.event]);
         }
 
-        await wait(4100);
+        await wait(isSimulationSlowMode ? 4100 : 1100);
     }
 
     await sendDataPacket(canvasDataItems, runningComputerPrograms, sourceItemId, destinationIp, updateStatus, sourceItemId);

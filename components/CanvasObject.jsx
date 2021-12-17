@@ -17,7 +17,7 @@ import strings from "../misc/strings.json";
 import ComputerInteractionPane from "./ComputerInteractionPane";
 import RoutingTable from "./RoutingTable";
 
-const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataItems, setSimulationRunning, isSimulationRunning, runningComputerPrograms, setRunningComputerPrograms, onRightClick }) => {
+const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataItems, setSimulationRunning, isSimulationRunning, runningComputerPrograms, setRunningComputerPrograms, isSimulationSlowMode, onRightClick }) => {
     const { isOpen: isConfigModalOpen, onOpen: onConfigModalOpen, onClose: onConfigModalClose } = useDisclosure();
     const { isOpen: isInteractionModalOpen, onOpen: onInteractionModalOpen, onClose: onInteractionModalClose } = useDisclosure();
 
@@ -206,6 +206,7 @@ const CanvasObject = ({ isSimulationMode, item, canvasDataItems, setCanvasDataIt
                             setSimulationRunning={setSimulationRunning}
                             runningComputerPrograms={runningComputerPrograms}
                             setRunningComputerPrograms={setRunningComputerPrograms}
+                            isSimulationSlowMode={isSimulationSlowMode}
                         />
                     </ModalBody>
 

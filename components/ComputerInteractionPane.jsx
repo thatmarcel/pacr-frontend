@@ -4,7 +4,7 @@ import sendDataPacketAndVisualizeRoute from "../helpers/simulation/send_data_pac
 
 import strings from "../misc/strings.json";
 
-const ComputerInteractionPane = ({ canvasDataItems, setCanvasDataItems, computerItemId, onModalClose, onModalOpen, setSimulationRunning, runningComputerPrograms, setRunningComputerPrograms }) => {
+const ComputerInteractionPane = ({ canvasDataItems, setCanvasDataItems, computerItemId, onModalClose, onModalOpen, setSimulationRunning, runningComputerPrograms, setRunningComputerPrograms, isSimulationSlowMode }) => {
     const [simpleClientDestinationIpAddress, setSimpleClientDestinationIpAddress] = useState(null);
     const [simpleClientMessageToSend, setSimpleClientMessageToSend] = useState(strings.simpleClientMessagePrefill);
 
@@ -37,7 +37,7 @@ const ComputerInteractionPane = ({ canvasDataItems, setCanvasDataItems, computer
                         <Button marginTop={6} paddingX={8} isDisabled={!simpleClientDestinationIpAddress || !simpleClientMessageToSend} onClick={async () => {
                             onModalClose();
                             setSimulationRunning(true);
-                            await sendDataPacketAndVisualizeRoute(canvasDataItems, setCanvasDataItems, runningComputerPrograms, computerItemId, simpleClientDestinationIpAddress, toast);
+                            await sendDataPacketAndVisualizeRoute(canvasDataItems, setCanvasDataItems, runningComputerPrograms, computerItemId, simpleClientDestinationIpAddress, toast, isSimulationSlowMode);
                             setSimulationRunning(false);
                             onModalOpen();
                         }}>

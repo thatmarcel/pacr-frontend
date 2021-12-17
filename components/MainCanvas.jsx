@@ -6,7 +6,7 @@ import randomstring from "randomstring";
 
 import strings from "../misc/strings.json";
 
-const MainCanvas = ({ isSimulationMode, canvasDataItems, setCanvasDataItems, setSimulationRunning, isSimulationRunning, runningComputerPrograms, setRunningComputerPrograms }) => {
+const MainCanvas = ({ isSimulationMode, canvasDataItems, setCanvasDataItems, setSimulationRunning, isSimulationRunning, runningComputerPrograms, setRunningComputerPrograms, isSimulationSlowMode }) => {
     const [, drop] = useDrop(() => ({
         accept: "canvasObject",
         drop(item, monitor) {
@@ -75,6 +75,7 @@ const MainCanvas = ({ isSimulationMode, canvasDataItems, setCanvasDataItems, set
                     isSimulationRunning={isSimulationRunning}
                     runningComputerPrograms={runningComputerPrograms}
                     setRunningComputerPrograms={setRunningComputerPrograms}
+                    isSimulationSlowMode={isSimulationSlowMode}
                     onRightClick={() => {
                         if (!firstItemToConnect) {
                             setFirstItemToConnect({ id: item.id, deviceType: item.deviceType, routerData: item.routerData });

@@ -40,5 +40,6 @@
     "aboutThisSite": "Über diese Seite",
     "acknowledgementsText": "Icons von Chakra UI und Freepik via Flaticon",
     "goToFrontendSourceCode": "Quellcode ansehen (Frontend)",
-    "goToBackendSourceCode": "Quellcode ansehen (Backend)"
+    "goToBackendSourceCode": "Quellcode ansehen (Backend)",
+    "slowMode": "Langsamer Modus"
 }

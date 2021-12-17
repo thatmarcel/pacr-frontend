@@ -23,6 +23,7 @@ const EditorPage = () => {
     const [isSimulationRunning, setSimulationRunning] = useState(false);
     const [saveState, setSaveState] = useState("unsaved");
     const [__hasMadeChangesSinceStart, setMadeChangesSinceStart] = useState(false);
+    const [isSimulationSlowMode, setSimulationSlowMode] = useState(true);
 
     const router = useRouter();
     const docId = router.query.id;
@@ -109,6 +110,8 @@ const EditorPage = () => {
                 onSimulationModeChange={(isSimMode) => setSimulationMode(isSimMode)}
                 isSimulationRunning={isSimulationRunning}
                 saveState={saveState}
+                isSimulationSlowMode={isSimulationSlowMode}
+                setSimulationSlowMode={setSimulationSlowMode}
             />
             <MainCanvas
                 canvasDataItems={canvasDataItems}
@@ -118,6 +121,7 @@ const EditorPage = () => {
                 isSimulationRunning={isSimulationRunning}
                 runningComputerPrograms={runningComputerPrograms}
                 setRunningComputerPrograms={setRunningComputerPrograms}
+                isSimulationSlowMode={isSimulationSlowMode}
             />
         </DefaultContainer>
     );
