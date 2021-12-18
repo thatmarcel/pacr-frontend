@@ -77,6 +77,10 @@ const MainCanvas = ({ isSimulationMode, canvasDataItems, setCanvasDataItems, set
                     setRunningComputerPrograms={setRunningComputerPrograms}
                     isSimulationSlowMode={isSimulationSlowMode}
                     onRightClick={() => {
+                        if (isSimulationMode) {
+                            return;
+                        }
+                        
                         if (!firstItemToConnect) {
                             setFirstItemToConnect({ id: item.id, deviceType: item.deviceType, routerData: item.routerData });
                         } else if (firstItemToConnect.id !== item.id) {
