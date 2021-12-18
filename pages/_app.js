@@ -1,5 +1,5 @@
 import "../styles/global.css";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import PlausibleProvider from "next-plausible";
