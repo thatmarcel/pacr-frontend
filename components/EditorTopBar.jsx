@@ -38,10 +38,16 @@ const EditorTopBar = ({ addObject, isSimulationMode, onSimulationModeChange, isS
             <div className="grow" /> {/* Spacer */}
 
             <div className="inline-block my-auto mr-8">
-                <FormLabel htmlFor="slow-mode-toggle" display="inline-block">
+                <FormLabel htmlFor="slow-mode-toggle" display="inline-block" textColor={isSimulationRunning && "gray.400"}>
                     {strings.slowMode}
                 </FormLabel>
-                <Switch id="slow-mode-toggle" display="inline-block" isChecked={isSimulationSlowMode} onChange={() => { setSimulationSlowMode(!isSimulationSlowMode) }} />
+                <Switch
+                    id="slow-mode-toggle"
+                    display="inline-block"
+                    isChecked={isSimulationSlowMode}
+                    onChange={() => { setSimulationSlowMode(!isSimulationSlowMode) }}
+                    isDisabled={isSimulationRunning}
+                />
             </div>
         </div>
     );
