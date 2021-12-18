@@ -19,6 +19,7 @@
     "framer-motion": "^4.1.17",
     "isomorphic-unfetch": "^3.1.0",
     "next": "^12.0.7",
+    "next-plausible": "^3.1.4",
     "randomstring": "^1.2.1",
     "react": "^17.0.2",
     "react-dnd": "^14.0.4",
