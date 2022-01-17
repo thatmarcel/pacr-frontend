@@ -1,0 +1,8 @@
+{
+    "internalError": "An internal error occurred, please try again",
+    "noRouteToDestinationAndNoGatewaySet": "The destination isn't directly connected to the sender and no gateway was specified",
+    "noRouteToGateway": "Neither the destination or the gateway is directly connected to the sender",
+    "routersNotImplemented": "Routers are not supported currently",
+    "gatewayReachedButNotTypeRouter": "The gateway can be reached but isn't a router",
+    "noRouteFromGatewayRouter": "No matching entry was found in the routing table of the gateway router"
+}

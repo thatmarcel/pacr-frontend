@@ -1,0 +1,8 @@
+{
+    "error": "An error occurred",
+    "usingCable": "The data packet is getting sent over a cable",
+    "destinationReached": "The destination was reached",
+    "gatewayRouterReached": "The data packet arrived at the gateway router",
+    "switchReached": "The data packet is travelling through a switch",
+    "echoServerReached": "The message has reached the echo server and is now getting sent back by it"
+}
